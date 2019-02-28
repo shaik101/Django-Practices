@@ -8,7 +8,34 @@ Models
 Naming Your Models :
           UpperCamelCase & singular(further we will define the Model manger and name it plural name)
           attributes -- snake_case
+
+Reverse Relationships
+
+    class Employee:
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    company = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+        related_name='employees',
+        related_query_name='person'
+    )
+  
+          # related_name - plural of model name
+                The related_name attribute in the ForeignKey fields is extremely useful. It let’s us define a meaningful name for the reverse relationship.
+                
+                Usage:
+                      google = Company.objects.get(name='Google')
+                      google.employees.all()
+                      
           
+          # related_query_name - singular
+                This kind of relationship also applies to query filters.
+            Usage:
+                  companies = Company.objects.filter(person__first_name='Vitor')
+                  
+
+
 Blank and Null Fields         
           Null: It is database-related. Defines if a given database column will accept null values or not.
           Blank: It is validation-related. It will be used during forms validation, when calling form.is_valid().
